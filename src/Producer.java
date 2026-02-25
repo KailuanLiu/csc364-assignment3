@@ -1,7 +1,7 @@
 public class Producer implements Runnable{
-    private final Repository queue;
+    private final Repository<Job> queue;
 
-    public Producer(Repository queue) {
+    public Producer(Repository<Job> queue) {
         this.queue = queue;
     }
 
@@ -13,11 +13,10 @@ public class Producer implements Runnable{
             int operation = (int)(Math.random() * 4 + 1);
             try {
                 queue.produce(new Job(first, second, operation));
-                Thread.sleep(100);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
         }
     }
 }

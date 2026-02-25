@@ -1,7 +1,7 @@
 public class Consumer implements Runnable{
-    public final Repository queue;
+    public final Repository<Job> queue;
 
-    public Consumer (Repository queue) {
+    public Consumer (Repository<Job> queue) {
         this.queue = queue;
     }
 
@@ -9,9 +9,9 @@ public class Consumer implements Runnable{
     public void run () {
         try {
             while(true) {
-                Job job = queue.consumer();
+                Job job = queue.consume();
                 System.out.println(job.process());
-                Thread.sleep(300);
+                Thread.sleep(600);
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

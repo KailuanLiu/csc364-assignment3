@@ -4,9 +4,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Repository {
-    private final Queue<Job> queue = new LinkedList<>();
-    private final int capacity;
+public class Repository<T> {
+    private final Queue<T> queue;
 
     private final Semaphore empty;
     private final Semaphore full;
@@ -14,32 +13,32 @@ public class Repository {
     private final Lock lock = new ReentrantLock();
 
     public Repository(int capacity) {
-        this.capacity = capacity;
+        this.queue = new LinkedList<>();
         this.empty = new Semaphore(capacity);
         this.full = new Semaphore(0);
     }
 
-    public void produce (Job job) throws InterruptedException {
+    public void produce (T item) throws InterruptedException {
         empty.acquire();
         lock.lock();
         try {
-            queue.add(job);
+            queue.add(item);
         } finally {
             lock.unlock();
         }
         full.release();
     }
 
-    public Job consumer() throws InterruptedException {
+    public T consume() throws InterruptedException {
         full.acquire();
-        Job job;
+        T item;
         lock.lock();
         try  {
-            job = queue.remove();
+            item = queue.remove();
         } finally {
             lock.unlock();
         }
         empty.release();
-        return job;
+        return item;
     }
 }
