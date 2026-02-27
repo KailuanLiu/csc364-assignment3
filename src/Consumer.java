@@ -10,8 +10,8 @@ public class Consumer implements Runnable{
         try {
             while(true) {
                 Job job = queue.consume();
-                System.out.println(job.process());
-                Thread.sleep(600);
+                System.out.println("Locally processed " + job.process());
+                Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

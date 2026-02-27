@@ -22,7 +22,6 @@ public class Subscriber implements MqttCallback {
     public void addTopic(String topic) throws MqttException {
         client.subscribe(topic);
     }
-
     public void removeTopic(String topic) throws MqttException {
         client.unsubscribe(topic);
     }

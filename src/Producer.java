@@ -13,7 +13,7 @@ public class Producer implements Runnable{
             int operation = (int)(Math.random() * 4 + 1);
             try {
                 queue.produce(new Job(first, second, operation));
-                Thread.sleep(300);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

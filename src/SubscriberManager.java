@@ -28,13 +28,19 @@ public class SubscriberManager implements PropertyChangeListener {
         subscriber.addTopic(topic);
     }
 
+    public void removeClient(String clientID) throws MqttException {
+        String workerTopic = String.format("%s/assign/%s",topicBase,clientID);
+        subscriber.removeTopic(workerTopic);
+    }
+
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getOldValue().equals(workerFinderTopic) && evt.getNewValue() instanceof String message) {
             workerTracker.addWorker(message);
         }
         else if(evt.getOldValue() instanceof String topic && topic.contains("/assign") && evt.getNewValue() instanceof String message && message.contains("=")){
-            System.out.println(message);
+            System.out.println("Externally processed " + message);
             String workerClientId = topic.substring(topic.indexOf("/assign") + 8);
             String jobId = message.substring(message.indexOf("id ") + 3, message.indexOf(":"));
             workerTracker.jobFinished(workerClientId,jobId);

@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -16,6 +15,10 @@ public class WorkerTracker {
             hashMap.put(newWorkerClientId, null);
             availableWorkers.add(newWorkerClientId);
         }
+    }
+
+    public Job getWorkerTask(String clientID) {
+        return hashMap.get(clientID);
     }
     public void addJob(String newWorkerClientId, Job job) {
         hashMap.put(newWorkerClientId,job);

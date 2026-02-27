@@ -8,9 +8,10 @@ public class PublisherManager {
         this.publisher = new Publisher(broker);
     }
 
-    public void publishTask(Job job, String workerClientId) throws InterruptedException {
+    public void publishTask(Job job, String workerClientId) {
         String jobDestination = topicBase + "/assign/" + workerClientId;
         publisher.publishJob(jobDestination,job.toString());
         workerTracker.addJob(workerClientId,job);
+
     }
 }

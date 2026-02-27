@@ -6,9 +6,9 @@ public class Main {
         for(int i = 0; i < numProducers; i++) {
             new Thread(new Producer(queue)).start();
         }
-//        for(int i = 0; i < numConsumers; i++) {
-//            new Thread(new Consumer(queue)).start();
-//        }
+        for(int i = 0; i < numConsumers; i++) {
+            new Thread(new Consumer(queue)).start();
+        }
         new Thread(new Outsourcer(queue)).start();
 
 
